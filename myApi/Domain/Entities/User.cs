@@ -1,6 +1,6 @@
 using System;
 
-namespace myApi.Entities
+namespace myApi.Domain.Entities
 {
     public class User
     {
