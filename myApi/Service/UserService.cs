@@ -27,25 +27,50 @@ namespace myApi.Service
 
         public User Authenticate(string email)
         {
-            if (string.IsNullOrEmpty(email))
-                return null;
+            try
+            {
+                if (string.IsNullOrEmpty(email))
+                    return null;
 
-            var user = _context.Users.SingleOrDefault(x => x.Email == email);
+                var user = _context.Users.SingleOrDefault(x => x.Email == email);
 
-            if (user == null)
-                return null;
+                if (user == null)
+                    return null;
 
-            return user;
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public IEnumerable<User> GetAll()
         {
-            return _context.Users;
+            try
+            {
+                var user = _context.Users.Where(x => x.Deleted_at == null);
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public User GetById(int id)
         {
-            return _context.Users.Find(id);
+            try
+            {
+                var userId = _context.Users.Where(x => x.Deleted_at == null && x.Id == id).FirstOrDefault();
+
+                return userId;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public User Create(User user)
@@ -65,23 +90,39 @@ namespace myApi.Service
 
         public void Update(User userParam)
         {
-            var user = _context.Users.Find(userParam.Id);
+            try
+            {
+                var user = _context.Users.Find(userParam.Id);
 
-            user.Name = userParam.Name;
-            user.DateOfBird = userParam.DateOfBird;
-            user.Sex = userParam.Sex;
+                user.Name = userParam.Name;
+                user.DateOfBird = userParam.DateOfBird;
+                user.Sex = userParam.Sex;
 
-            _context.Users.Update(user);
-            _context.SaveChanges();
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Delete(int id)
         {
-            var user = _context.Users.Find(id);
-            if (user != null)
+            try
             {
-                _context.Users.Remove(user);
-                _context.SaveChanges();
+                var user = _context.Users.Find(id);
+                if (user != null)
+                {
+                    user.Deleted_at = DateTime.UtcNow;
+
+                    _context.Users.Update(user);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

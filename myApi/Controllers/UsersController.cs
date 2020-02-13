@@ -50,7 +50,6 @@ namespace myApi.Controllers
             }
         }
 
-
         [Authorize("Bearer")]
         [HttpGet]
         public IActionResult GetAll()
@@ -61,9 +60,9 @@ namespace myApi.Controllers
 
                 return Ok(users);
             }
-            catch (Exception ex)
+            catch (ArgumentException e)
             {
-                return BadRequest(new { message = ex.Message });
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
 
@@ -77,9 +76,9 @@ namespace myApi.Controllers
 
                 return Ok(user);
             }
-            catch (Exception ex)
+            catch (ArgumentException e)
             {
-                return BadRequest(new { message = ex.Message });
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
 
@@ -97,9 +96,9 @@ namespace myApi.Controllers
                 _userService.Update(user);
                 return Ok("Usuário Atualizado com Sucesso!!!");
             }
-            catch (Exception ex)
+            catch (ArgumentException e)
             {
-                return BadRequest(new { message = ex.Message });
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
 
@@ -112,9 +111,9 @@ namespace myApi.Controllers
                 _userService.Delete(id);
                 return Ok("Usuário Excluido com Sucesso!!!");
             }
-            catch (Exception ex)
+            catch (ArgumentException e)
             {
-                return BadRequest(new { message = ex.Message });
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
     }
