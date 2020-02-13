@@ -35,6 +35,9 @@ namespace myApi.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Sex")
                         .HasColumnType("nvarchar(max)");
 
@@ -49,6 +52,7 @@ namespace myApi.Migrations
                             DateOfBird = new DateTime(1996, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@api.com",
                             Name = "AdminAPI",
+                            Role = "Manager",
                             Sex = "Masculino"
                         });
                 });

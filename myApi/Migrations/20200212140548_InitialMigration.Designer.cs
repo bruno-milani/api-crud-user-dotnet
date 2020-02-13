@@ -10,8 +10,8 @@ using myApi.Data.Context;
 namespace myApi.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20200212001926_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200212140548_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,9 @@ namespace myApi.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Sex")
                         .HasColumnType("nvarchar(max)");
 
@@ -51,6 +54,7 @@ namespace myApi.Migrations
                             DateOfBird = new DateTime(1996, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@api.com",
                             Name = "AdminAPI",
+                            Role = "Manager",
                             Sex = "Masculino"
                         });
                 });

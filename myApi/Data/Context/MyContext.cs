@@ -19,7 +19,8 @@ namespace myApi.Data.Context
                     Name = "AdminAPI",
                     Email = "admin@api.com",
                     DateOfBird = Convert.ToDateTime("17/07/1996"),
-                    Sex = "Masculino"
+                    Sex = "Masculino",
+                    Role = "Manager"
                 }
             );
         }

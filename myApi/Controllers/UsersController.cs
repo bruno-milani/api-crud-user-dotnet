@@ -11,100 +11,81 @@ using Microsoft.AspNetCore.Authorization;
 using myApi.Service;
 using myApi.Domain.Dtos;
 using myApi.Domain.Entities;
+using System.Threading.Tasks;
+using myApi.Data.Context;
+using System.Net;
 
 namespace myApi.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class UsersController : ControllerBase
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
         private IMapper _mapper;
-        private readonly AppSettings _appSettings;
-
-        public UsersController(
-            IUserService userService,
-            IMapper mapper,
-            IOptions<AppSettings> appSettings)
+        public UsersController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
             _mapper = mapper;
-            _appSettings = appSettings.Value;
-        }
-
-        [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]UserDto userDto)
-        {
-            var user = _userService.Authenticate(userDto.Email);
-
-            if (user == null)
-                return BadRequest(new { message = "Email is incorrect" });
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
-
-            return Ok(new
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-                DateOfBird = user.DateOfBird,
-                Sex = user.Sex,
-                Token = tokenString
-            });
         }
 
         [Authorize("Bearer")]
         [HttpPost("register")]
-        public IActionResult Register([FromBody]UserDto userDto)
+        public IActionResult Register([FromBody]User user)
         {
-            var user = _mapper.Map<User>(userDto);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             try
             {
-                _userService.Create(user);
-                return Ok();
+                var resultUser = _userService.Create(user);
+                return Ok(resultUser);
             }
-            catch (Exception ex)
+            catch (ArgumentException e)
             {
-                // return error message if there was an exception
-                return BadRequest(new { message = ex.Message });
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
         }
+
 
         [Authorize("Bearer")]
         [HttpGet]
         public IActionResult GetAll()
         {
-            var users = _userService.GetAll();
-            var userDtos = _mapper.Map<IList<UserDto>>(users);
-            return Ok(userDtos);
+            try
+            {
+                var users = _userService.GetAll();
+
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [Authorize("Bearer")]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var user = _userService.GetById(id);
-            var userDto = _mapper.Map<UserDto>(user);
-            return Ok(userDto);
+            try
+            {
+                var user = _userService.GetById(id);
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [Authorize("Bearer")]
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]UserDto userDto)
+        public IActionResult Update(int id, [FromBody]User userDto)
         {
             // map dto to entity and set id
             var user = _mapper.Map<User>(userDto);
@@ -114,11 +95,10 @@ namespace myApi.Controllers
             {
                 // save 
                 _userService.Update(user);
-                return Ok();
+                return Ok("Usuário Atualizado com Sucesso!!!");
             }
             catch (Exception ex)
             {
-                // return error message if there was an exception
                 return BadRequest(new { message = ex.Message });
             }
         }
@@ -127,8 +107,15 @@ namespace myApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _userService.Delete(id);
-            return Ok();
+            try
+            {
+                _userService.Delete(id);
+                return Ok("Usuário Excluido com Sucesso!!!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

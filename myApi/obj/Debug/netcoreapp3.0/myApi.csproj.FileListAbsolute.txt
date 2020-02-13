@@ -44,3 +44,9 @@ C:\workspace\api-crud-user-dotnet\myApi\obj\Debug\netcoreapp3.0\myApi.RazorTarge
 C:\workspace\api-crud-user-dotnet\myApi\obj\Debug\netcoreapp3.0\myApi.csproj.CopyComplete
 C:\workspace\api-crud-user-dotnet\myApi\obj\Debug\netcoreapp3.0\myApi.dll
 C:\workspace\api-crud-user-dotnet\myApi\obj\Debug\netcoreapp3.0\myApi.pdb
+C:\workspace\api-crud-user-dotnet\myApi\bin\Debug\netcoreapp3.0\Microsoft.OpenApi.dll
+C:\workspace\api-crud-user-dotnet\myApi\bin\Debug\netcoreapp3.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\workspace\api-crud-user-dotnet\myApi\bin\Debug\netcoreapp3.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\workspace\api-crud-user-dotnet\myApi\bin\Debug\netcoreapp3.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\workspace\api-crud-user-dotnet\myApi\obj\Debug\netcoreapp3.0\myApi.MvcApplicationPartsAssemblyInfo.cs
+C:\workspace\api-crud-user-dotnet\myApi\bin\Debug\netcoreapp3.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

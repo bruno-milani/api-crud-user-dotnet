@@ -67,7 +67,6 @@ namespace myApi.Service
         {
             var user = _context.Users.Find(userParam.Id);
 
-            // update user properties
             user.Name = userParam.Name;
             user.DateOfBird = userParam.DateOfBird;
             user.Sex = userParam.Sex;

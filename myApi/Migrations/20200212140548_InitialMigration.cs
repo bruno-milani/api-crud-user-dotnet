@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace myApi.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,8 @@ namespace myApi.Migrations
                     Name = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     DateOfBird = table.Column<DateTime>(nullable: true),
-                    Sex = table.Column<string>(nullable: true)
+                    Sex = table.Column<string>(nullable: true),
+                    Role = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -25,8 +26,8 @@ namespace myApi.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "DateOfBird", "Email", "Name", "Sex" },
-                values: new object[] { 1, new DateTime(1996, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@api.com", "AdminAPI", "Masculino" });
+                columns: new[] { "Id", "DateOfBird", "Email", "Name", "Role", "Sex" },
+                values: new object[] { 1, new DateTime(1996, 7, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@api.com", "AdminAPI", "Manager", "Masculino" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
