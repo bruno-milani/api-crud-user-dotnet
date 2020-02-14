@@ -3,7 +3,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using myApi.Domain.Dtos;
+using myApi.Domain.Interface;
 using myApi.Service;
 
 namespace myApi.Application.Controllers
@@ -13,17 +15,21 @@ namespace myApi.Application.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IUserService _userService;
-        public LoginController(IUserService userService)
+        private readonly ILogger<LoginController> _logger;
+        public LoginController(IUserService userService, ILogger<LoginController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
 
         [AllowAnonymous]
-        [HttpPost("login")]
+        [HttpPost]
         public IActionResult Authenticate([FromBody]UserDto userDto)
         {
             try
             {
+                _logger.LogInformation("Executando api/login");
+
                 var user = _userService.Authenticate(userDto.Email);
 
                 if (user == null)
@@ -41,9 +47,10 @@ namespace myApi.Application.Controllers
                     Token = token
                 });
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                _logger.LogError("Error");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Internal Server Error");
             }
         }
     }

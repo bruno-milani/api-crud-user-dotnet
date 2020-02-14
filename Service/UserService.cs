@@ -3,19 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using myApi.Data.Context;
 using myApi.Domain.Entities;
+using myApi.Domain.Interface;
 
 namespace myApi.Service
 {
-    public interface IUserService
-    {
-        User Authenticate(string email);
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        User Create(User user);
-        void Update(User user);
-        void Delete(int id);
-    }
-
     public class UserService : IUserService
     {
         private MyContext _context;
@@ -92,11 +83,12 @@ namespace myApi.Service
         {
             try
             {
-                var user = _context.Users.Find(userParam.Id);
+                var user = _context.Users.Where(x => x.Deleted_at == null && x.Id == userParam.Id).FirstOrDefault();
 
                 user.Name = userParam.Name;
                 user.DateOfBird = userParam.DateOfBird;
                 user.Sex = userParam.Sex;
+                user.Update_at = DateTime.UtcNow;
 
                 _context.Users.Update(user);
                 _context.SaveChanges();

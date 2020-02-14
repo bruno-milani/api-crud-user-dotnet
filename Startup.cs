@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using myApi.Data.Context;
+using myApi.Domain.Interface;
 using myApi.Service;
 
 namespace myApi

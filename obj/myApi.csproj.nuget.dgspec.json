@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\workspace\\api-crud-user-dotnet\\myApi\\myApi.csproj": {}
+    "C:\\workspace\\api-crud-user-dotnet\\myApi.csproj": {}
   },
   "projects": {
-    "C:\\workspace\\api-crud-user-dotnet\\myApi\\myApi.csproj": {
+    "C:\\workspace\\api-crud-user-dotnet\\myApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\workspace\\api-crud-user-dotnet\\myApi\\myApi.csproj",
+        "projectUniqueName": "C:\\workspace\\api-crud-user-dotnet\\myApi.csproj",
         "projectName": "myApi",
-        "projectPath": "C:\\workspace\\api-crud-user-dotnet\\myApi\\myApi.csproj",
+        "projectPath": "C:\\workspace\\api-crud-user-dotnet\\myApi.csproj",
         "packagesPath": "C:\\Users\\Bruno\\.nuget\\packages\\",
-        "outputPath": "C:\\workspace\\api-crud-user-dotnet\\myApi\\obj\\",
+        "outputPath": "C:\\workspace\\api-crud-user-dotnet\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -74,6 +74,46 @@
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging.AzureAppServices": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging.Console": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging.Debug": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging.EventLog": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging.EventSource": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging.TraceSource": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[3.0.0, )"
             },

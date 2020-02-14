@@ -14,6 +14,8 @@ using myApi.Domain.Entities;
 using System.Threading.Tasks;
 using myApi.Data.Context;
 using System.Net;
+using myApi.Domain.Interface;
+using Microsoft.Extensions.Logging;
 
 namespace myApi.Controllers
 {
@@ -22,31 +24,35 @@ namespace myApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ILogger<UsersController> _logger;
         private IMapper _mapper;
-        public UsersController(IUserService userService, IMapper mapper)
+        public UsersController(IUserService userService, IMapper mapper, ILogger<UsersController> logger)
         {
             _userService = userService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [Authorize("Bearer")]
         [HttpPost("register")]
         public IActionResult Register([FromBody]User user)
         {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
+                _logger.LogInformation("Executando api/users/register");
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 var resultUser = _userService.Create(user);
                 return Ok(resultUser);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                _logger.LogError("Error");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Internal Server Error");
             }
         }
 
@@ -56,13 +62,16 @@ namespace myApi.Controllers
         {
             try
             {
+                _logger.LogInformation("Executando api/users - GetAll");
+
                 var users = _userService.GetAll();
 
                 return Ok(users);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                _logger.LogError("Error");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Internal Server Error");
             }
         }
 
@@ -72,13 +81,16 @@ namespace myApi.Controllers
         {
             try
             {
+                _logger.LogInformation($"Executando api/users/ -> GET id:{id}");
+
                 var user = _userService.GetById(id);
 
                 return Ok(user);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                _logger.LogError("Error");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Internal Server Error");
             }
         }
 
@@ -86,19 +98,19 @@ namespace myApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]User userDto)
         {
-            // map dto to entity and set id
-            var user = _mapper.Map<User>(userDto);
-            user.Id = id;
-
             try
             {
-                // save 
+                _logger.LogInformation($"Executando api/users/ -> Put id:{id}");
+                var user = _mapper.Map<User>(userDto);
+                user.Id = id;
+
                 _userService.Update(user);
                 return Ok("Usuário Atualizado com Sucesso!!!");
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                _logger.LogError("Error");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Internal Server Error");
             }
         }
 
@@ -108,12 +120,15 @@ namespace myApi.Controllers
         {
             try
             {
+                _logger.LogInformation($"Executando api/users/ -> Delete id:{id}");
+
                 _userService.Delete(id);
                 return Ok("Usuário Excluido com Sucesso!!!");
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                _logger.LogError("Error");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Internal Server Error");
             }
         }
     }
